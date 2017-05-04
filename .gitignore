@@ -26,7 +26,8 @@ results
 
 # Specific files #
 ##################
-*/settings/secret.json
+UNCOMMENT THIS LINE!!!
+#*/settings/secret.json
 .sass-cache
 
 # OS generated files #
