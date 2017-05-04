@@ -1,0 +1,107 @@
+"""
+Django LOCAL settings for {{ project_name }} project.
+"""
+from sys import argv
+
+from .base import *
+
+
+###################
+#      DEBUG      #
+###################
+# https://docs.djangoproject.com/en/dev/ref/settings/#std:setting-DEBUG
+DEBUG = True
+
+
+###################
+#  ALLOWED HOSTS  #
+###################
+# https://docs.djangoproject.com/en/dev/ref/settings/#allowed-hosts
+ALLOWED_HOSTS = ['127.0.0.1']
+
+
+######################
+#  HELPER FUNCTIONS  #
+######################
+def q():
+    from django.db import connection
+    return len(connection.queries), connection.queries
+    
+    
+###################
+#    DATABASE     #
+###################
+# https://docs.djangoproject.com/en/dev/ref/settings/#databases
+
+SQLITE = 'django.db.backends.sqlite3'
+
+DATABASES = {
+    'default': {
+        'ENGINE': SQLITE,
+        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+    }
+}
+
+#DATABASES = {
+#    'default': {
+#        'ENGINE': 'django.db.backends.postgresql',
+#        'NAME': '',
+#        'USER': '',
+#        'PASSWORD': '',
+#        'HOST': 'localhost',
+#    }
+#}
+
+if 'test' in argv:
+    DATABASES['default']['ENGINE'] = SQLITE
+
+
+#########################
+#  MEDIA CONFIGURATION  #
+#########################
+# https://docs.djangoproject.com/en/dev/ref/settings/#media-root
+MEDIA_ROOT = ROOT('media_remote/')
+
+
+################################
+#    INTERNAL_IPS & SITE_ID    #
+################################
+# https://docs.djangoproject.com/en/dev/ref/settings/#std:setting-INTERNAL_IPS
+INTERNAL_IPS = ('127.0.0.1',)
+
+# https://docs.djangoproject.com/en/dev/ref/settings/#std:setting-SITE_ID
+SITE_ID = 1
+
+
+##########################
+#   ADMIN URL SETTINGS   #
+##########################
+MY_ADMIN_URL = 'admin'
+
+
+#####################################
+#  DJANGO-COMPRESSOR CONFIGURATION  #
+#####################################
+COMPRESS_OFFLINE = False
+COMPRESS_URL = STATIC_URL
+COMPRESS_ROOT = STATIC_ROOT
+COMPRESS_OUTPUT_DIR = 'compress'
+COMPRESS_CSS_FILTERS = ['compressor.filters.css_default.CssAbsoluteFilter',  'compressor.filters.cssmin.CSSMinFilter']
+
+
+#############################
+#   LOGGING CONFIGURATION   #
+#############################
+# https://docs.djangoproject.com/en/dev/ref/settings/#logging
+
+LOGGING['handlers']['development_logfile'] = {
+    'level': 'DEBUG',
+    'filters': ['development_only'],
+    'class': 'logging.handlers.RotatingFileHandler',
+    'filename': ROOT('logs/dev.log'),
+    'maxBytes': 1024 * 1024,
+    'backupCount': 3,
+    'formatter': 'verbose'
+}
+
+

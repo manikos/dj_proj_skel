@@ -1,0 +1,91 @@
+from .base import *
+
+# See https://docs.djangoproject.com/en/dev/howto/deployment/checklist/
+
+
+#########################
+#  DEBUG CONFIGURATION  #
+#########################
+# https://docs.djangoproject.com/en/dev/ref/settings/#debug
+DEBUG = False
+
+
+###################
+#  ALLOWED HOSTS  #
+###################
+# https://docs.djangoproject.com/en/dev/ref/settings/#allowed-hosts
+ALLOWED_HOSTS = []
+
+
+###################
+#    SECURITY     #
+###################
+CSRF_COOKIE_HTTPONLY = True
+X_FRAME_OPTIONS = 'DENY'
+CSRF_COOKIE_SECURE = True
+SESSION_COOKIE_SECURE = True
+SECURE_BROWSER_XSS_FILTER = True
+SECURE_CONTENT_TYPE_NOSNIFF = True  # this may not be useful since all media files are served from AWS
+SECURE_HSTS_SECONDS = 3600  # https://www.chosenplaintext.ca/articles/why-hsts.html
+SECURE_HSTS_INCLUDE_SUBDOMAINS = True
+
+
+###################
+#    DATABASE     #
+###################
+# https://docs.djangoproject.com/en/dev/ref/settings/#databases
+
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': get_secret('DJANGO_DATABASE_NAME'),
+        'USER': get_secret('DJANGO_DATABASE_USER'),
+        'PASSWORD': get_secret('DJANGO_DATABASE_PWD'),
+        'HOST': '127.0.0.1',
+        'PORT': '5432',
+    }
+}
+
+
+##########################
+#   ADMIN URL SETTINGS   #
+##########################
+MY_ADMIN_URL = get_secret('ADMIN_URL')
+
+
+#####################################
+#  DJANGO-COMPRESSOR CONFIGURATION  #
+#####################################
+COMPRESS_ENABLED = True  # defaults to NOT DEBUG, but declared here explicit
+COMPRESS_URL = STATIC_URL  # defaults to STATIC_URL, but declared here explicit
+COMPRESS_ROOT = STATIC_ROOT  # defaults to STATIC_ROOT, but declared here explicit
+COMPRESS_OUTPUT_DIR = 'compressor'
+COMPRESS_CSS_FILTERS = ['compressor.filters.css_default.CssAbsoluteFilter',
+                        'compressor.filters.cssmin.rCSSMinFilter']
+COMPRESS_OFFLINE = False  # defaults to False, but declared here explicit
+
+
+#############################
+#   LOGGING CONFIGURATION   #
+#############################
+# https://docs.djangoproject.com/en/dev/ref/settings/#logging
+
+LOGGING['handlers']['production_logfile'] = {
+    'level': 'INFO',
+    'filters': ['production_only'],
+    'class': 'logging.handlers.RotatingFileHandler',
+    'filename': ROOT('logs/production.log'),
+    'maxBytes': 1024 * 1024,
+    'backupCount': 3,
+    'formatter': 'verbose'
+}
+
+LOGGING['handlers']['my_apps'] = {
+    'level': 'INFO',
+    'filters': ['production_only'],
+    'class': 'logging.handlers.RotatingFileHandler',
+    'filename': ROOT('logs/my_apps.log'),
+    'maxBytes': 1024 * 1024,
+    'backupCount': 3,
+    'formatter': 'verbose'
+}

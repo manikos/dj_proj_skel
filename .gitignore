@@ -1,0 +1,38 @@
+# File types #
+##############
+*.swo
+*.swp
+*.swn
+*.seed
+*.log
+*.csv
+*.dat
+*.out
+*.pid
+*.gz
+
+
+# Directories #
+###############
+media_local/
+media_remote/
+static_remote/
+static_src/
+.idea/
+lib-cov
+pids
+results
+
+
+# Specific files #
+##################
+*/settings/secret.json
+.sass-cache
+
+# OS generated files #
+######################
+.DS_Store
+ehthumbs.db
+Icon
+Thumbs.db
+*~
