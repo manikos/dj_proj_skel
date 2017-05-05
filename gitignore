@@ -1,0 +1,36 @@
+# File types #
+##############
+*.swo
+*.swp
+*.swn
+*.seed
+*.log
+*.csv
+*.dat
+*.out
+*.pid
+*.gz
+
+
+# Directories #
+###############
+media_remote/
+static_remote/
+.idea/
+lib-cov
+pids
+results
+
+
+# Specific files #
+##################
+{{ project_name }}/settings/secret.json
+.sass-cache
+
+# OS generated files #
+######################
+.DS_Store
+ehthumbs.db
+Icon
+Thumbs.db
+*~
