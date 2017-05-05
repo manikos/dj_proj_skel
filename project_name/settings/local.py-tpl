@@ -33,27 +33,25 @@ def q():
 ###################
 # https://docs.djangoproject.com/en/dev/ref/settings/#databases
 
-SQLITE = 'django.db.backends.sqlite3'
-
 DATABASES = {
     'default': {
-        'ENGINE': SQLITE,
-        'NAME': ROOT('db.sqlite3'),
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': '{{ project_name }}',
+        'USER': '',
+        'PASSWORD': '',
+        'HOST': 'localhost',
     }
 }
 
+if 'test' in argv:
+    DATABASES['default']['ENGINE'] = 'django.db.backends.sqlite3'
+
 # DATABASES = {
 #    'default': {
-#        'ENGINE': 'django.db.backends.postgresql',
-#        'NAME': '',
-#        'USER': '',
-#        'PASSWORD': '',
-#        'HOST': 'localhost',
+#        'ENGINE': 'django.db.backends.sqlite3',
+#        'NAME': ROOT('db.sqlite3'),
 #    }
 # }
-
-if 'test' in argv:
-    DATABASES['default']['ENGINE'] = SQLITE
 
 
 #########################
