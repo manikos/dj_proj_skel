@@ -1,0 +1,49 @@
+"""
+Fabfile for the creation of the PostgreSQL project database.
+Because Fabric is run only under Python 2 you should do install it system-wide with:
+
+sudo pip install fabric
+cd /path/to/your/project
+fab pg
+"""
+from fabric.api import env, local, settings, task
+from fabric.operations import prompt
+
+
+POSTGRES_PACKAGES = [
+	'postgresql', 'libpq-dev', 'python-psycopg2', 'postgresql-client-common', 
+	'postgresql-client', 'postgresql-contrib', 'pgadmin3',
+]
+
+
+def install_required_packages():
+	install_packages = prompt('Install required packages [y, n]?', default='n')
+	if install_packages in ['y', 'yes']:
+		local('sudo apt-get update', capture=True, shell='/bin/bash')
+		local('sudo apt-get install -y {}'.format(' '.join(POSTGRES_PACKAGES)), shell='/bin/bash')
+
+
+def create_pg_superuser():
+	user = prompt('Database superuser username:', default=env.user)
+	# user_exists.stdout will be 1 if user found and None otherwise.
+	user_exists = local('psql postgres -tAc "SELECT 1 FROM pg_roles WHERE rolname=\'{}\'"'.format(user), capture=True)
+	if not user_exists.stdout:
+		# -d: env.user can create new databases
+		# -E: env.user's given password will be stored as a hashed value, instead of plain text
+		# -P: it will prompt user to enter a password
+		local('sudo -u postgres createuser -d -E -P {}'.format(user), capture=True)
+
+
+def create_db():
+	db_name = prompt('Database name:', default='{{ project_name }}')
+	with settings(warn_only=True):
+		db_exists = local('psql -lqt | cut -d \| -f 1 | grep -w {}'.format(db_name), capture=True)
+		if db_exists.failed:
+			local('createdb {}'.format(db_name))
+
+
+@task
+def pg():
+	install_required_packages()
+	create_pg_superuser()
+	create_db()

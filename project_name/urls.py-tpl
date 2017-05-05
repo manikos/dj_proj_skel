@@ -13,12 +13,12 @@ Including another URLconf
     1. Import the include() function: from django.conf.urls import url, include
     2. Add a URL to urlpatterns:  url(r'^blog/', include('blog.urls'))
 """
-from django.conf.urls import url
+from django.conf.urls import url, include
 from django.conf.urls.i18n import i18n_patterns
 from django.contrib import admin
 from django.conf import settings
 
-#from .sitemaps import SITEMAPS
+# from .sitemap import SITEMAPS
 
 
 # i18n prefix URLs
@@ -31,15 +31,15 @@ urlpatterns += i18n_patterns(
 )
 
 # Uncomment below to support sitemap
-#urlpatterns += [
+# urlpatterns += [
 #    url(r'^sitemap\.xml/$', sitemap, {'sitemaps': SITEMAPS, 'template_name': 'sitemap.xml'},
 #        name='django.contrib.sitemaps.views.sitemap')
-#]
+# ]
 
 if settings.DEBUG:
     from django.views.static import serve
     from django.views.defaults import page_not_found, server_error
-    urlpatterns += [url(r'^media/(?P<path>.*)', serve, {'document_root': MEDIA_ROOT})]
+    urlpatterns += [url(r'^media/(?P<path>.*)', serve, {'document_root': settings.MEDIA_ROOT})]
 
     urlpatterns += [
         url(r'^404/$', page_not_found, {'exception': ''}),

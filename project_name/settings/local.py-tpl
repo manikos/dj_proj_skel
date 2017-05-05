@@ -38,11 +38,11 @@ SQLITE = 'django.db.backends.sqlite3'
 DATABASES = {
     'default': {
         'ENGINE': SQLITE,
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+        'NAME': ROOT('db.sqlite3'),
     }
 }
 
-#DATABASES = {
+# DATABASES = {
 #    'default': {
 #        'ENGINE': 'django.db.backends.postgresql',
 #        'NAME': '',
@@ -50,7 +50,7 @@ DATABASES = {
 #        'PASSWORD': '',
 #        'HOST': 'localhost',
 #    }
-#}
+# }
 
 if 'test' in argv:
     DATABASES['default']['ENGINE'] = SQLITE
@@ -103,5 +103,3 @@ LOGGING['handlers']['development_logfile'] = {
     'backupCount': 3,
     'formatter': 'verbose'
 }
-
-

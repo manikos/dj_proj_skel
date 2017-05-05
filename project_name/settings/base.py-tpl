@@ -26,6 +26,7 @@ def here(*path):
 
 PROJECT_ROOT = here("..", "..")
 
+
 def root_is(*path):
     return join(abspath(PROJECT_ROOT), *path)
 
@@ -35,7 +36,7 @@ ROOT = root_is
 ################################
 #   VARIABLES CONFIGURATIONS   #
 ################################
-with open('secret.json') as f:
+with open(ROOT('{{ project_name }}/settings/secret.json')) as f:
     secrets = loads(f.read())
 
 
@@ -96,7 +97,7 @@ DJANGO_APPS = [
 ]
 
 THIRD_PARTY_APPS = [
-    'compressor',  # used for minify and compress css/js
+    # 'compressor',  # used for minify and compress css/js
 ]
 
 PROJECT_APPS = [
@@ -105,7 +106,6 @@ PROJECT_APPS = [
 
 # https://docs.djangoproject.com/en/dev/ref/settings/#installed-apps
 INSTALLED_APPS = DJANGO_APPS + THIRD_PARTY_APPS + PROJECT_APPS
-
 
 
 #############################
@@ -164,7 +164,7 @@ LOCALE_PATHS = (
 
 # Preferred languages of the site
 LANGUAGES = (
-    #('en', _('English')),
+    # ('en', _('English')),
     ('el', _('Greek')),
 )
 
@@ -309,15 +309,15 @@ LOGGING = {
             'propagate': False
         },
         # if a log of level INFO (or greater) occurred in the `cart` app, log it in logs/my_apps.log
-        #'cart': {
+        # 'cart': {
         #    'handlers': ['my_apps'],
         #    'level': 'INFO',
-        #},
+        # },
         # if a log of level INFO (or greater) occurred in the `info` app, log it in logs/my_apps.log & send emails
-        #'info': {
+        # 'info': {
         #    'handlers': ['my_apps', 'mail_admins'],
         #    'level': 'INFO',
         #    'propagate': False
-        #},
+        # },
     }
 }
