@@ -54,13 +54,6 @@ if 'test' in argv:
 # }
 
 
-#########################
-#  MEDIA CONFIGURATION  #
-#########################
-# https://docs.djangoproject.com/en/dev/ref/settings/#media-root
-MEDIA_ROOT = ROOT('media_remote/')
-
-
 ################################
 #    INTERNAL_IPS & SITE_ID    #
 ################################

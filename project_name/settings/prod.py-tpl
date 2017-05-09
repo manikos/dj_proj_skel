@@ -14,20 +14,22 @@ DEBUG = False
 #  ALLOWED HOSTS  #
 ###################
 # https://docs.djangoproject.com/en/dev/ref/settings/#allowed-hosts
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']  # TODO: CHANGE THAT IN PRODUCTION!
 
 
 ###################
-#    SECURITY     #
+#    SECURITY     #  TODO: SWITCH ON OR OFF BELOW SECURITY SETTINGS (OR REMOVE/ADD MORE)
 ###################
-CSRF_COOKIE_HTTPONLY = True
-X_FRAME_OPTIONS = 'DENY'
-CSRF_COOKIE_SECURE = True
-SESSION_COOKIE_SECURE = True
-SECURE_BROWSER_XSS_FILTER = True
-SECURE_CONTENT_TYPE_NOSNIFF = True  # this may not be useful since all media files are served from AWS
-SECURE_HSTS_SECONDS = 3600  # https://www.chosenplaintext.ca/articles/why-hsts.html
-SECURE_HSTS_INCLUDE_SUBDOMAINS = True
+# https://docs.djangoproject.com/en/dev/ref/settings/#security
+
+# CSRF_COOKIE_HTTPONLY = True
+# X_FRAME_OPTIONS = 'DENY'
+# CSRF_COOKIE_SECURE = True
+# SESSION_COOKIE_SECURE = True
+# SECURE_BROWSER_XSS_FILTER = True
+# SECURE_CONTENT_TYPE_NOSNIFF = True  # if media files get served via Amazon S3 this setting may be set to False (default)
+# SECURE_HSTS_SECONDS = 3600  # https://www.chosenplaintext.ca/articles/why-hsts.html
+# SECURE_HSTS_INCLUDE_SUBDOMAINS = True
 
 
 ###################
@@ -47,10 +49,25 @@ DATABASES = {
 }
 
 
+###################################
+#  ADMINS/MANAGERS CONFIGURATION  #
+###################################
+# https://docs.djangoproject.com/en/dev/ref/settings/#admins
+# People who get code 500 error notifications via email (when unhandled exception has been raised).
+ADMIN_EMAIL = get_secret('ADMIN_EMAIL')  # TODO: ADD AN EMAIL FOR 500 & 404 errors IN PRODUCTION!
+ADMINS = (
+    (__author__, ADMIN_EMAIL),
+)
+
+# https://docs.djangoproject.com/en/dev/ref/settings/#managers
+# Specifies who should get broken link notification email. This only works if the request has a referer.
+MANAGERS = ADMINS
+
+
 ##########################
 #   ADMIN URL SETTINGS   #
 ##########################
-MY_ADMIN_URL = get_secret('ADMIN_URL')
+MY_ADMIN_URL = get_secret('ADMIN_URL')  # TODO: CHANGE THAT IN PRODUCTION (INSIDE secret.json)
 
 
 #####################################

@@ -9,6 +9,6 @@ except ImportError:
 
 if LIVE:
     try:
-        from .production import *
+        from .prod import *
     except ImportError:
         pass
