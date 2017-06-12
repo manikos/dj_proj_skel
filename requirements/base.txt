@@ -1,1 +1,4 @@
+Django
+django-jinja
+Jinja2
 psycopg2

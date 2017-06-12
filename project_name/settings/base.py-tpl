@@ -83,6 +83,7 @@ DJANGO_APPS = [
 ]
 
 THIRD_PARTY_APPS = [
+    'django_jinja',
     # 'compressor',  # used for minify and compress css/js
 ]
 
@@ -118,6 +119,13 @@ MIDDLEWARE = [
 # https://docs.djangoproject.com/en/dev/ref/settings/#secret-key
 # SECURITY WARNING: keep the secret key AWAY in production!
 SECRET_KEY = get_secret('SECRET_KEY')
+
+
+#############
+#  SITE ID  #
+#############
+# https://docs.djangoproject.com/en/dev/ref/settings/#std:setting-SITE_ID
+SITE_ID = 1
 
 
 ##########################
@@ -161,10 +169,43 @@ LANGUAGES = (
 # https://docs.djangoproject.com/en/dev/ref/templates/
 TEMPLATES = [
     {
-        'BACKEND': 'django.template.backends.django.DjangoTemplates',
+        'BACKEND': "django_jinja.backend.Jinja2",
         'DIRS': [
             ROOT('templates/'),
         ],
+        'APP_DIRS': True,
+        'OPTIONS': {
+            # render with Jinja2 all templates under DIRS that end with .html
+            'match_extension': '.html',
+            # enable i18n with new style, which means that instead of this (invalid):
+            # {{ _('Hello %(w)s!')|format(w='world') }}
+            # we can do this (valid):
+            # {{ _('Hello %(w)s!', w='world') }}
+            'newstyle_gettext': True,
+            'extensions': [
+                'jinja2.ext.i18n',
+                'django_jinja.builtins.extensions.CsrfExtension',
+                'django_jinja.builtins.extensions.CacheExtension',
+                'django_jinja.builtins.extensions.TimezoneExtension',
+                'django_jinja.builtins.extensions.UrlsExtension',
+                'django_jinja.builtins.extensions.StaticFilesExtension',
+                'django_jinja.builtins.extensions.DjangoFiltersExtension',
+            ],
+            # [Available settings] https://github.com/niwinz/django-jinja/blob/master/django_jinja/backend.py#L157
+            # [Usage] https://github.com/niwinz/django-jinja/blob/master/django_jinja/builtins/extensions.py#L99
+            'bytecode_cache': {
+                'enabled': True
+            },
+            'globals': {
+                'messages': 'django.contrib.messages.api.get_messages',
+            },
+        #     'context_processors': [
+        #         'django.contrib.auth.context_processors.auth',
+        #     ],
+        },
+    },
+    {
+        'BACKEND': 'django.template.backends.django.DjangoTemplates',
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [

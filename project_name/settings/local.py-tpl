@@ -54,14 +54,11 @@ if 'test' in argv:
 # }
 
 
-################################
-#    INTERNAL_IPS & SITE_ID    #
-################################
+##################
+#  INTERNAL_IPS  #
+##################
 # https://docs.djangoproject.com/en/dev/ref/settings/#std:setting-INTERNAL_IPS
 INTERNAL_IPS = ('127.0.0.1',)
-
-# https://docs.djangoproject.com/en/dev/ref/settings/#std:setting-SITE_ID
-SITE_ID = 1
 
 
 ##########################
