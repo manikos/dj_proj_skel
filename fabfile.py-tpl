@@ -4,7 +4,12 @@ Because Fabric is run only under Python 2 you should do install it system-wide w
 
 sudo pip install fabric
 cd /path/to/your/project
+
+Then run it with:
 fab pg
+
+To see the list of all possible commands (it will only show the "pg" task), run:
+fab -l
 """
 from fabric.api import env, local, settings, task
 from fabric.operations import prompt
