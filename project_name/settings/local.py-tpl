@@ -26,8 +26,8 @@ ALLOWED_HOSTS = ['127.0.0.1']
 def q():
     from django.db import connection
     return len(connection.queries), connection.queries
-    
-    
+
+
 ###################
 #    DATABASE     #
 ###################

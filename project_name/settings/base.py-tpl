@@ -20,6 +20,7 @@ from django.core.exceptions import ImproperlyConfigured
 from django.utils.translation import ugettext_lazy as _
 
 __author__ = 'nick'
+PROJECT_NAME = '{{ project_name }}'
 
 
 ##########################
@@ -40,7 +41,7 @@ ROOT = root_is
 ################################
 #   VARIABLES CONFIGURATIONS   #
 ################################
-with open(ROOT('{{ project_name }}/settings/secret.json')) as f:
+with open(ROOT('{}/settings/secret.json'.format(PROJECT_NAME))) as f:
     secrets = loads(f.read())
 
 
@@ -51,22 +52,20 @@ def get_secret(setting, secret=secrets):
     except KeyError:
         error_msg = 'Set the {0} environment variable'.format(setting)
         raise ImproperlyConfigured(error_msg)
-        
-PROJECT_NAME = '{{ project_name }}'
 
 
 #######################
 #  URL CONFIGURATION  #
 #######################
 # https://docs.djangoproject.com/en/dev/ref/settings/#root-urlconf
-ROOT_URLCONF = '{{ project_name }}.urls'
+ROOT_URLCONF = '{}.urls'.format(PROJECT_NAME)
 
 
 ########################
 #  WSGI CONFIGURATION  #
 ########################
 # https://docs.djangoproject.com/en/dev/ref/settings/#wsgi-application
-WSGI_APPLICATION = '{{ project_name }}.wsgi.application'
+WSGI_APPLICATION = '{}.wsgi.application'.format(PROJECT_NAME)
 
 
 #########################
@@ -157,7 +156,7 @@ USE_TZ = True
 # Paths which include locale directories (used for translation)
 
 LOCALE_PATHS = (
-    ROOT('{{ project_name }}/locale'),
+    ROOT('{}/locale'.format(PROJECT_NAME)),
 )
 
 # Preferred languages of the site
@@ -175,7 +174,7 @@ TEMPLATES = [
     {
         'BACKEND': "django_jinja.backend.Jinja2",
         'DIRS': [
-            ROOT('templates/'),
+            ROOT('templates'),
         ],
         'APP_DIRS': True,
         'OPTIONS': {
