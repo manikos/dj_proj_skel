@@ -202,9 +202,12 @@ TEMPLATES = [
             'globals': {
                 'messages': 'django.contrib.messages.api.get_messages',
             },
-        #     'context_processors': [
-        #         'django.contrib.auth.context_processors.auth',
-        #     ],
+            'filters': {
+            	'remove_accent': 'myutils.templatetags.myutils_filters.remove_accent'
+            },
+        	#     'context_processors': [
+        	#         'django.contrib.auth.context_processors.auth',
+        	#     ],
         },
     },
     {
