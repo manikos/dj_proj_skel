@@ -8,7 +8,7 @@ After project created in your desired (local) directory, you can delete the READ
 The produced project structure looks like this:
 
 
-proj
+<pre>proj
 ├── fabfile.py
 ├── gitignore
 ├── logs
@@ -72,7 +72,7 @@ proj
     ├── base
     │   └── base.html
     └── sitemap.xml
-
+</pre>
 
 
 
