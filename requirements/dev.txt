@@ -1,4 +1,4 @@
 # Specifies only dev-specific requirements
-# But imports the common ones too
+# But imports the base ones too
 
 -r base.txt
